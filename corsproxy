@@ -126,6 +126,7 @@ async def get(request: Request) -> Response:
 
     method = request.method
     hdr = request.headers
+    hdr = CIMultiDict((k, v) for k, v in hdr.items() if k != 'host')
 
     if method == 'GET':
         func = session.get(url, headers=hdr)
