@@ -149,7 +149,7 @@ async def get(request: Request) -> Response:
         hdr = CIMultiDict((k, v.strip())
                           for k, v in response.headers.items())
         hdr["Access-Control-Allow-Origin"] = "*"
-        return Response((await response.text()), response.status, hdr)
+        return Response((await response.read()), response.status, hdr)
 
 # Set routes and middleware
 routes = [Route('/{path:path}', get, methods=('GET', 'POST', 'PUT',
