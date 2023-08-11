@@ -147,7 +147,7 @@ async def get(request: Request) -> Response:
         # Some servers have blank chars on end of key values which
         # Starlette does not like
         hdr = CIMultiDict((k, v.strip())
-                          for k, v in response.headers.items() if k != 'content-encoding')
+                          for k, v in response.headers.items() if k.lower() != 'content-encoding')
         hdr["Access-Control-Allow-Origin"] = "*"
         # hdr["Content-Type"] = "application/json"
 
