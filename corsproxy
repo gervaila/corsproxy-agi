@@ -148,6 +148,7 @@ async def get(request: Request) -> Response:
         # Starlette does not like
         hdr = CIMultiDict((k, v.strip())
                           for k, v in response.headers.items())
+        hdr["Access-Control-Allow-Origin"] = "*"
         return Response((await response.text()), response.status, hdr)
 
 # Set routes and middleware
