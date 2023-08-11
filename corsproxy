@@ -149,6 +149,7 @@ async def get(request: Request) -> Response:
         hdr = CIMultiDict((k, v.strip())
                           for k, v in response.headers.items())
         hdr["Access-Control-Allow-Origin"] = "*"
+        hdr["Content-Type"] = "application/json"
         return Response((await response.read()), response.status, hdr)
 
 # Set routes and middleware
