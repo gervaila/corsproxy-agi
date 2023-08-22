@@ -12,16 +12,19 @@ from starlette.requests import Request
 from starlette.responses import Response
 from starlette.routing import Route
 
-sessions = {"app-prod": aiohttp.ClientSession("https://app.agicap.com"),
-            "app-preprod": aiohttp.ClientSession("https://preprod.agicap.cloud"),
-            "app-dev": aiohttp.ClientSession("https://dev.agicap.cloud")}
-
+url_roots = {"app-prod": "https://app.agicap.com",
+            "app-preprod": "https://preprod.agicap.cloud",
+            "app-dev":"https://dev.agicap.cloud"}
+session = None
 
 async def get(request: Request) -> Response:
+    global session
+    if not session:
+        session = aiohttp.ClientSession()
     # Chop scheme + netloc from URL
     url = urlunsplit(urlsplit(str(request.url))._replace(scheme='', netloc=''))
-    session = sessions[url.split("/")[1]]
-    url = url.replace(url.split("/")[1], "")[1:]
+    url_root = url_roots[url.split("/")[1]]
+    url = url_root + url.replace(url.split("/")[1], "")
 
     method = request.method
     hdr = request.headers
