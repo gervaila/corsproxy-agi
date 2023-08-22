@@ -61,4 +61,4 @@ middleware = [Middleware(CORSMiddleware, allow_origins=['*'],
 
 # Create the app instance
 app = Starlette(routes=routes, middleware=middleware)
-uvicorn.run(app, port=os.getenv("PORT", 8080), server_header=False, date_header=False)
+uvicorn.run(app, port=int(os.getenv("PORT", "8080")), server_header=False, date_header=False)
