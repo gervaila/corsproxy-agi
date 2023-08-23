@@ -13,6 +13,8 @@ from starlette.responses import Response
 from starlette.routing import Route
 
 url_roots = {"app-prod": "https://app.agicap.com",
+             "bus-def": "https://business-definition.agicap.com",
+             "aggregator": "https://aggregator.agicap.com",
              "app-preprod": "https://preprod.agicap.cloud",
              "app-dev": "https://dev.agicap.cloud"}
 session = None
