@@ -38,6 +38,7 @@ print(url_roots)
 
 
 LB_PREFIX = "/cors-proxy"
+LB_PREPROD_PREFIX = "/cors-proxy-preprod"
 session = None
 
 
@@ -48,6 +49,7 @@ async def get(request: Request) -> Response:
     # Chop scheme + netloc from URL
     url = urlunsplit(urlsplit(str(request.url))._replace(scheme='', netloc=''))
     url = url.replace(LB_PREFIX, "")
+    url = url.replace(LB_PREPROD_PREFIX, "")
     for key, url_dest in url_roots.items():
         if url.startswith(key):
             url = url_dest + "/" + url.replace(key, "")
