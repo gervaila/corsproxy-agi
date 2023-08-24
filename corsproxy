@@ -12,11 +12,31 @@ from starlette.requests import Request
 from starlette.responses import Response
 from starlette.routing import Route
 
-url_roots = {"app-prod": "https://app.agicap.com",
-             "bus-def": "https://business-definition.agicap.com",
-             "aggregator": "https://aggregator.agicap.com",
-             "app-preprod": "https://preprod.agicap.cloud",
-             "app-dev": "https://dev.agicap.cloud"}
+prefixes = ["aggregator",
+            "business-definition",
+            "collect-matrix",
+            "collect-api",
+            "debt-management",
+            "delorean",
+            "invoices-management",
+            "matrix",
+            "payments",
+            "reconciliation",
+            "spend-back",
+            "subscription"]
+
+url_roots = {"/prod/app/": "https://app.agicap.com",
+             "/preprod/app/": "https://preprod.agicap.cloud",
+             "/dev/app/": "https://dev.agicap.cloud"}
+
+for prefix in prefixes:
+    url_roots[f"/prod/{prefix}/"] = f"https://{prefix}.agicap.com"
+    url_roots[f"/dev/{prefix}/"] = f"https://dev-{prefix}.agicap.cloud"
+    url_roots[f"/preprod/{prefix}/"] = f"https://preprod-{prefix}.agicap.cloud"
+
+print(url_roots)
+
+
 LB_PREFIX = "/cors-proxy"
 session = None
 
@@ -28,9 +48,10 @@ async def get(request: Request) -> Response:
     # Chop scheme + netloc from URL
     url = urlunsplit(urlsplit(str(request.url))._replace(scheme='', netloc=''))
     url = url.replace(LB_PREFIX, "")
-    url_root = url_roots[url.split("/")[1]]
-    url = url_root + url.replace(url.split("/")[1], "")[1:]
-
+    for key, url in url_roots.items():
+        if url.startswith(key):
+            url = url_roots[key] + "/" + url.replace(key, "")
+    print(f"url : {url}")
     method = request.method
     hdr = request.headers
     hdr = CIMultiDict((k, v) for k, v in hdr.items() if k != 'host')
