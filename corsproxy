@@ -27,7 +27,7 @@ async def get(request: Request) -> Response:
         session = aiohttp.ClientSession()
     # Chop scheme + netloc from URL
     url = urlunsplit(urlsplit(str(request.url))._replace(scheme='', netloc=''))
-    url = url.replace("LB_PREFIX", "")
+    url = url.replace(LB_PREFIX, "")
     url_root = url_roots[url.split("/")[1]]
     url = url_root + url.replace(url.split("/")[1], "")[1:]
 
