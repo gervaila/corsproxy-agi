@@ -48,9 +48,9 @@ async def get(request: Request) -> Response:
     # Chop scheme + netloc from URL
     url = urlunsplit(urlsplit(str(request.url))._replace(scheme='', netloc=''))
     url = url.replace(LB_PREFIX, "")
-    for key, url in url_roots.items():
+    for key, url_dest in url_roots.items():
         if url.startswith(key):
-            url = url_roots[key] + "/" + url.replace(key, "")
+            url = url_dest + "/" + url.replace(key, "")
     print(f"url : {url}")
     method = request.method
     hdr = request.headers
