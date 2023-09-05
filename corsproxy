@@ -23,7 +23,8 @@ prefixes = ["aggregator",
             "payments",
             "reconciliation",
             "spend-back",
-            "subscription"]
+            "subscription",
+            "transformationmatrix"]
 
 url_roots = {"/prod/app/": "https://app.agicap.com",
              "/preprod/app/": "https://preprod.agicap.cloud",
