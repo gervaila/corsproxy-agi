@@ -23,12 +23,15 @@ prefixes = ["aggregator",
             "payments",
             "reconciliation",
             "spend-back",
-            "subscription",
-            "transformationmatrix"]
+            "subscription"]
 
 url_roots = {"/prod/app/": "https://app.agicap.com",
              "/preprod/app/": "https://preprod.agicap.cloud",
-             "/dev/app/": "https://dev.agicap.cloud"}
+             "/dev/app/": "https://dev.agicap.cloud",
+             "/prod/transformationmatrix/": "https://transformationmatrix.agicap.com",
+             "/preprod/transformationmatrix/": "https://preprod-matrix.agicap.cloud",
+             "/dev/transformationmatrix/": "https://dev-matrix.agicap.cloud"
+             }
 
 for prefix in prefixes:
     url_roots[f"/prod/{prefix}/"] = f"https://{prefix}.agicap.com"
@@ -36,7 +39,6 @@ for prefix in prefixes:
     url_roots[f"/preprod/{prefix}/"] = f"https://preprod-{prefix}.agicap.cloud"
 
 print(url_roots)
-
 
 LB_PREFIX = "/cors-proxy"
 LB_PREPROD_PREFIX = "/cors-proxy-preprod"
