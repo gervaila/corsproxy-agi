@@ -58,7 +58,10 @@ async def get(request: Request) -> Response:
             url = url_dest + "/" + url.replace(key, "")
     print(f"url : {url}")
     method = request.method
+    print(request.method)
     hdr = request.headers
+    hdr_to_print = CIMultiDict((k, v) for k, v in hdr.items() if k.lower() != 'authorization')
+    print(hdr_to_print)
     hdr = CIMultiDict((k, v) for k, v in hdr.items() if k != 'host')
 
     if method == 'GET':
@@ -84,9 +87,7 @@ async def get(request: Request) -> Response:
         hdr["Access-Control-Allow-Origin"] = "*"
         # hdr["Content-Type"] = "application/json"
 
-        res = Response((await response.read()), response.status, hdr)
-        print(response.content, response.headers, response.status)
-        return res
+        return Response((await response.read()), response.status, hdr)
 
 
 # Set routes and middleware
