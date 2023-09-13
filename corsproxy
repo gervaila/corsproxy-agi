@@ -58,11 +58,11 @@ async def get(request: Request) -> Response:
             url = url_dest + "/" + url.replace(key, "")
     print(f"url : {url}")
     method = request.method
-    print(request.method)
+    # print(request.method)
     hdr = request.headers
-    hdr_to_print = CIMultiDict((k, v) for k, v in hdr.items() if k.lower() != 'authorization')
-    print(hdr_to_print)
-    hdr = CIMultiDict((k, v) for k, v in hdr.items() if k != 'host')
+    # hdr_to_print = CIMultiDict((k, v) for k, v in hdr.items() if k.lower() != 'authorization')
+    # print(hdr_to_print)
+    hdr = CIMultiDict((k, v) for k, v in hdr.items() if (k.lower() != 'host' and k.lower()) != 'accept-language')
 
     if method == 'GET':
         func = session.get(url, headers=hdr)
